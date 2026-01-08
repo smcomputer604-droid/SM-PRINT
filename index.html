@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopFlow - Daily Sales Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏪</text></svg>">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+					<img class="mylogo" src="mylogo.png" alt="#">
+                    <!-- <i class="fas fa-store"></i> -->
+                </div>
+                <div class="logo-text">SM PRINT TECHNOLOGY</div>
+            </div>
+            
+            <button class="menu-btn" id="menuBtn">
+                <i class="fas fa-ellipsis-v"></i>
+            </button>
+            
+            <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-item" id="dailyReportBtn">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Daily Report</span>
+                </div>
+                <div class="dropdown-item" id="monthlyReportBtn">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Monthly Report</span>
+                </div>
+                <div class="dropdown-item" id="settingsBtn">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Section 1: Daily Sales Entry -->
+        <section class="section">
+            <div class="section-title">
+                <h2>Sales Entry</h2>
+                <p>Select a Service</p>
+            </div>
+            
+            <div class="services-grid" id="servicesGrid">
+                <!-- Services will be populated by JavaScript -->
+            </div>
+        </section>
+        
+        <!-- Section 2: Cash in Drawer -->
+        <section class="section">
+            <div class="section-title">
+                <h2>Cash in Drawer</h2>
+                <p>Track your daily opening cash</p>
+            </div>
+            
+            <div class="glass-card form-container">
+                <div class="form-group">
+                    <label class="form-label" for="cashDate">Date</label>
+                    <input type="date" id="cashDate" class="form-input" value="">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="cashAmount">Amount <span class="required">*</span></label>
+                    <input type="number" id="cashAmount" class="form-input" placeholder="Enter amount" required>
+                </div>
+                
+                <button class="btn btn-primary btn-block" id="submitCashBtn">
+                    <i class="fas fa-save"></i> Save Cash Entry
+                </button>
+                
+                <!-- Current cash display -->
+                <div class="cash-display glass-card">
+                    <div class="cash-display-title">Current Cash in Drawer</div>
+                    <div class="cash-display-amount" id="currentCashAmount">৳0</div>
+                    <div class="cash-display-date" id="cashDateDisplay">-</div>
+                </div>
+                
+                <!-- Loading overlay -->
+                <div class="loading-overlay" id="cashLoading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Section 3: Daily Expense Entry -->
+        <section class="section">
+            <div class="section-title">
+                <h2>Daily Expense Entry</h2>
+                <p>Record your shop expenses</p>
+            </div>
+            
+            <div class="glass-card form-container">
+                <div class="form-group">
+                    <label class="form-label" for="expenseAmount">Expense Amount <span class="required">*</span></label>
+                    <input type="number" id="expenseAmount" class="form-input" placeholder="Enter amount" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="expensePurpose">Expense Purpose <span class="required">*</span></label>
+                    <input type="text" id="expensePurpose" class="form-input" placeholder="What was this expense for?" required>
+                </div>
+                
+                <button class="btn btn-primary btn-block" id="submitExpenseBtn">
+                    <i class="fas fa-receipt"></i> Save Expense
+                </button>
+                
+                <!-- Loading overlay -->
+                <div class="loading-overlay" id="expenseLoading">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Service Modal -->
+    <div class="modal-overlay" id="serviceModal">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <div class="modal-title" id="modalServiceName">Service Name</div>
+                <button class="close-btn" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="serviceAmount">Amount <span class="required">*</span></label>
+                <input type="number" id="serviceAmount" class="form-input" placeholder="Enter amount" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="customerName">Customer Name (Optional)</label>
+                <input type="text" id="customerName" class="form-input" placeholder="Enter customer name">
+            </div>
+            
+            <button class="btn btn-primary btn-block" id="submitServiceBtn" disabled>
+                <i class="fas fa-check"></i> Submit Sale
+            </button>
+            
+            <!-- Loading overlay -->
+            <div class="loading-overlay" id="serviceLoading">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settingsModal">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <div class="modal-title">Settings</div>
+                <button class="close-btn" id="closeSettingsBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="apiUrl">Google Apps Script URL</label>
+                <input type="text" id="apiUrl" class="form-input" placeholder="Enter your Google Apps Script Web App URL">
+                <p class="form-help">Deploy your Google Apps Script as a web app and paste the URL here.</p>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Current Mode</label>
+                <div class="mode-display" id="modeDisplay">Demo Mode</div>
+            </div>
+            
+            <div class="form-actions">
+                <button class="btn btn-primary" id="saveSettingsBtn">
+                    <i class="fas fa-save"></i> Save Settings
+                </button>
+                <button class="btn btn-secondary" id="testApiBtn">
+                    <i class="fas fa-test"></i> Test Connection
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+</html>
