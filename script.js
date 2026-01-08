@@ -7,7 +7,7 @@
 const CONFIG = {
     APP_NAME: 'ShopFlow',
     VERSION: '1.0.0',
-    DEFAULT_API_URL: 'https://script.google.com/macros/s/AKfycbwUVe49s33MMaJtR0Zh-yGPBYw_W25Qu3tPPMOfPM6E6cJiDBvRzCbXTZSO94unZX_RzQ/exec',
+    DEFAULT_API_URL: 'https://script.google.com/macros/s/AKfycbxDBvw3VKWTHKQdf-ufrbNYflPIIuhQsxSQBk4b48VH9P7xbjFCU_YJr8hq-1wMl7q53Q/exec',
     STORAGE_KEY: 'shopflow_data',
     DEMO_MODE: true
 };
